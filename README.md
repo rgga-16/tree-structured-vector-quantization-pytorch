@@ -11,4 +11,6 @@ A Pytorch implementation of the paper titled "[Fast Texture Synthesis using Tree
 
 
 ## References
+* Wei, L. Y., & Levoy, M. (2000, July). Fast texture synthesis using tree-structured vector quantization. In Proceedings of the 27th annual conference on Computer graphics and interactive techniques (pp. 479-488).
+
 [tvsq]: https://graphics.stanford.edu/papers/texture-synthesis-sig00/texture.pdf
