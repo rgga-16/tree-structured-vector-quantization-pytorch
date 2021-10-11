@@ -6,6 +6,7 @@ import torch.nn.functional as F
 import utils, seeder
 
 import numpy as np, math, argparse
+from tqdm import tqdm
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -18,7 +19,6 @@ def parse_arguments():
     parser.add_argument('--n_size', default=10,type=int,help='Neighborhood size.')
     parser.add_argument('--parent_n_size', default=None,type=int,help='Neighborhood size of previous level. By default, it is half of n_size.')
     return parser.parse_args()
-
 
 def get_h_and_w(size):
     if type(size) is tuple:
@@ -124,11 +124,11 @@ def tvsq(in_path,out_path,n_size,n_levels,in_size=None,out_size=None,parent_size
     G_a = build_gaussian_pyramid(I_a,n_levels=n_levels)
     G_s = build_gaussian_pyramid(I_s,n_levels=n_levels)
 
-    for L in range(n_levels):
+    for L in tqdm(range(n_levels)):
         neighborhoods_pyr,kD_pixels = get_neighborhood_pyramids(G_a,L,n_size,parent_size,False)
         _,o_h,o_w = G_s[L].shape 
-        for o_r in range(o_h):
-            print(f'Rows {o_r+1} of {o_h}')
+        for o_r in tqdm(range(o_h)):
+            # print(f'Rows {o_r+1} of {o_h}')
             for o_c in range(o_w):
                 N_o = get_neighborhood_pyramid(o_r,o_c,G_s,L,n_size,parent_size,exclude_curr_pixel=True).unsqueeze(0)
                 dists = F.pairwise_distance(N_o,neighborhoods_pyr,p=2,keepdim=True).squeeze()
