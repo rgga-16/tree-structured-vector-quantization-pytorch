@@ -28,6 +28,20 @@ def get_h_and_w(size):
     
     return h,w
 
+'''
+Helper function that fills a n-sized list with an integer.
+'''
+def fill_list(int_, n):
+    assert(isinstance(int_,list) or isinstance(int_,int)),'Must be an int or list of ints.'
+    
+    list_=int_
+    if isinstance(int_,list):
+        pass
+    elif isinstance(int_,int):
+        list_ = [int_] * n
+        
+    return list_
+
 def build_gaussian_pyramid(image,n_levels):
     gaussian_blur = GaussianBlur(kernel_size=(5,5))
     pyramid = [image]
@@ -102,12 +116,21 @@ def get_neighborhood_pyramids(pyramid,level,n_size,n_parent_size,exclude_curr_pi
     return torch.stack(neighborhood_pyrs),torch.stack(kD_pixels)
 
 
-def tvsq(in_path,out_path,n_size,n_levels,in_size=None,out_size=None,parent_size=None):
+def tvsq(in_path,out_path,n_sizes,n_levels,in_size=None,out_size=None,parent_sizes=None):
     d=torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    n_h,n_w = get_h_and_w(n_size)
-    if parent_size is None:
-        parent_size = (math.ceil(n_h/2), math.ceil(n_w/2))
+    # if parent_sizes is not None: 
+    #     assert type(n_sizes)==type(parent_sizes),"n_size and parent_size must be either both ints or lists of ints."
+
+    if isinstance(n_sizes,int): 
+        n_sizes = fill_list(n_sizes,n_levels)
+    else:
+        assert len(n_sizes)==n_levels,"Length of n_sizes must be equal to n_levels."
+
+    if isinstance(parent_sizes,int):
+        parent_sizes = fill_list(parent_sizes,n_levels)
+    elif parent_sizes is not None:
+        assert len(parent_sizes)==n_levels,"Length of parent_sizes must be equal to n_levels."
     
     # Load input texture image
     I_a = utils.image_to_tensor(utils.load_image(in_path),resize=in_size,device=d)
@@ -124,14 +147,24 @@ def tvsq(in_path,out_path,n_size,n_levels,in_size=None,out_size=None,parent_size
     G_a = build_gaussian_pyramid(I_a,n_levels=n_levels)
     G_s = build_gaussian_pyramid(I_s,n_levels=n_levels)
 
-    for L in tqdm(range(n_levels)):
-        neighborhoods_pyr,kD_pixels = get_neighborhood_pyramids(G_a,L,n_size,parent_size,False)
+    
+    # TVSQ Loop
+    for L in range(n_levels):
+        n_size = n_sizes[L]
+
+        n_h,n_w = get_h_and_w(n_size)
+        if parent_sizes is None:
+            parent_size = (math.ceil(n_h/2), math.ceil(n_w/2))
+        else:
+            parent_size = parent_sizes[L]
+        
+        print(f'Pyramid Level: {L+1}')
+        N_a,kD_pixels = get_neighborhood_pyramids(G_a,L,n_size,parent_size,False)
         _,o_h,o_w = G_s[L].shape 
         for o_r in tqdm(range(o_h)):
-            # print(f'Rows {o_r+1} of {o_h}')
             for o_c in range(o_w):
-                N_o = get_neighborhood_pyramid(o_r,o_c,G_s,L,n_size,parent_size,exclude_curr_pixel=True).unsqueeze(0)
-                dists = F.pairwise_distance(N_o,neighborhoods_pyr,p=2,keepdim=True).squeeze()
+                N_s = get_neighborhood_pyramid(o_r,o_c,G_s,L,n_size,parent_size,exclude_curr_pixel=True).unsqueeze(0)
+                dists = F.pairwise_distance(N_s,N_a,p=2,keepdim=True).squeeze()
                 if L==0:
                     dists = torch.sum(dists,dim=(-1,-2))
                 else: 
