@@ -1,7 +1,7 @@
 # Fast Texture Synthesis using Tree Structured Vector Quantization
 This is a Pytorch implementation of the paper titled "[Fast Texture Synthesis using Tree-structured Vector Quantization][tvsq]" by Li-Yi Wei and Marc Levoy (2000,SIGGRAPH).
 
-[tvsq]: https://graphics.stanford.edu/papers/texture-synthesis-sig00/texture.pdf
+
 
 ## Requirements
 The implementation was tested using the specified versions of the following packages: 
@@ -32,8 +32,13 @@ For details on the arguments, run `python tvsq.py -h` or `python tvsq.py --h`.
 
 ## Acknowledgements
 - Some parts of the code were based on the implementation, [multi-resolution-texture-synthesis][mrts], by [anopara][user1].
+
+
+- Input texture image borrowed from [Texture Synthesis][ts] by [1iyiwei][user2]. 
+
+
+[tvsq]: https://graphics.stanford.edu/papers/texture-synthesis-sig00/texture.pdf
 [mrts]: https://github.com/anopara/multi-resolution-texture-synthesis#multi-resolution-texture-synthesis
 [user1]: https://github.com/anopara
-- Input texture image borrowed from [Texture Synthesis][ts] by [1iyiwei][user2]. 
 [ts]: https://github.com/1iyiwei/texture. 
 [user2]: https://github.com/1iyiwei
