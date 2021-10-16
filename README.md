@@ -5,7 +5,7 @@ This is a Pytorch implementation of the paper titled "[Fast Texture Synthesis us
 ![Synthetic texture](texture1_s.jpg?raw=true "Synthetic texture")
 
 ## Requirements
-The implementation was tested using the specified versions of the following packages: 
+The code was written and tested with the specified versions of the following: 
 * Python 3.7.9
 * Pytorch 1.9.1
 * Pillow 8.3.1
