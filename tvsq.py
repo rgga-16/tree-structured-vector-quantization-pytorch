@@ -11,13 +11,15 @@ from tqdm import tqdm
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description='Tree-Structured Vector Quantization for Fast Texture Synthesis')
-    parser.add_argument('--in_path',type=str,help='Path to input texture image.')
-    parser.add_argument('--out_path',type=str,help='Path to save output texture image.')
-    parser.add_argument('--in_size',default=None,type=int,help='Size of input texture image to resize to, if needed.')
-    parser.add_argument('--out_size',default=None,type=int,help='Size of output texture image. By default, it is in_size.')
-    parser.add_argument('--n_levels',default=4,type=int,help='Number of levels in pyramid.')
-    parser.add_argument('--n_size', default=10,type=int,help='Neighborhood size.')
-    parser.add_argument('--parent_n_size', default=None,type=int,help='Neighborhood size of previous level. By default, it is half of n_size.')
+    parser.add_argument('--in_path',type=str,help='Path to input texture image.',required=True)
+    parser.add_argument('--out_path',type=str,help='Path to save output texture image.',required=True)
+    parser.add_argument('--n_levels',type=int,default=4,help='Number of levels in pyramid. By default, it is 4.')
+    parser.add_argument('--n_size',type=int,default=None,help='Neighborhood size.')
+    parser.add_argument('--n_sizes',type=int,nargs='+',default=None, help='Neighborhood sizes. Use this if you want to have different sizes per level.')
+    parser.add_argument('--parent_size',type=int,default=None,help='Neighborhood size of previous level. By default, it is half of n_size.')
+    parser.add_argument('--parent_sizes',type=int,nargs='+',default=None, help='Neighborhood sizes of previous levels. Use this if you want to have different sizes per level.')
+    parser.add_argument('--in_size',type=int,default=None,help='Size of input texture image to resize to, if needed.')
+    parser.add_argument('--out_size',type=int,default=None,help='Size of output texture image. By default, it is in_size.')
     return parser.parse_args()
 
 def get_h_and_w(size):
@@ -116,11 +118,10 @@ def get_neighborhood_pyramids(pyramid,level,n_size,n_parent_size,exclude_curr_pi
     return torch.stack(neighborhood_pyrs),torch.stack(kD_pixels)
 
 
-def tvsq(in_path,out_path,n_sizes,n_levels,in_size=None,out_size=None,parent_sizes=None):
+def tvsq(in_path,out_path,n_size,n_levels,in_size=None,out_size=None,parent_size=None):
     d=torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # if parent_sizes is not None: 
-    #     assert type(n_sizes)==type(parent_sizes),"n_size and parent_size must be either both ints or lists of ints."
+    n_sizes=n_size; parent_sizes=parent_size
 
     if isinstance(n_sizes,int): 
         n_sizes = fill_list(n_sizes,n_levels)
@@ -183,10 +184,17 @@ def tvsq(in_path,out_path,n_sizes,n_levels,in_size=None,out_size=None,parent_siz
 
 def main():
     args = parse_arguments()
+
+    assert args.n_size is not None or args.n_sizes is not None, "Either n_size or n_sizes must be specified."
+    # assert args.parent_size is not None or args.parent_sizes is not None, "Either parent_size or parent_sizes must be specified."
+
+    n_size = args.n_size if args.n_size is not None else args.n_sizes
+    parent_size = args.parent_size if args.parent_size is not None else args.parent_sizes
+    
     tvsq(args.in_path,args.out_path,
-        n_size=args.n_size,n_levels=args.n_levels,
+        n_size=n_size,n_levels=args.n_levels,
         in_size=args.in_size,out_size=args.out_size,
-        parent_size=args.parent_n_size)
+        parent_size=parent_size)
     return
 
 if __name__ == "__main__":   
