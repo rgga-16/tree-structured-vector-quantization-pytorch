@@ -185,7 +185,6 @@ def main():
     args = parse_arguments()
 
     assert args.n_size is not None or args.n_sizes is not None, "Either n_size or n_sizes must be specified."
-    # assert args.parent_size is not None or args.parent_sizes is not None, "Either parent_size or parent_sizes must be specified."
 
     n_size = args.n_size if args.n_size is not None else args.n_sizes
     parent_size = args.parent_size if args.parent_size is not None else args.parent_sizes
