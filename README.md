@@ -10,10 +10,19 @@ The implementation was tested using the specified versions of the following pack
 * JupyterLab (if you want to run the notebook, demo.ipynb)
 
 ## Execution
-Run the following command:
+Use the following command if you would like to use a constant neighborhood size:
 ````
-python tvsq.py --in_path [path_to_input_texture] --out_path [path_to_save_output_texture] --n_levels [number_of_pyramid_levels] --n_size [neighborhood_size]
+python tvsq.py --in_path INPUT_TEXTURE_PATH --out_path SAVE_OUTPUT_TEXTURE_PATH [--n_levels NUM_LEVELS] --n_size NEIGHBORHOOD_SIZE  [--parent_size PARENT_SIZE] [--in_size INPUT_SIZE] [--out_size OUTPUT_SIZE]
 ````
+
+Use the following command if you would like to use different neighborhood sizes per level:
+````
+python tvsq.py --in_path INPUT_TEXTURE_PATH --out_path SAVE_OUTPUT_TEXTURE_PATH [--n_levels NUM_LEVELS] --n_sizes [NEIGHBORHOOD_SIZE]  [--parent_sizes [PARENT_SIZE]] [--in_size INPUT_SIZE] [--out_size OUTPUT_SIZE]
+````
+
+* Note that either n_size or n_sizes must be specified.
+
+For details on the arguments, run `python tvsq.py -h` or `python tvsq.py --h`. 
 
 ## References
 * Wei, L. Y., & Levoy, M. (2000, July). Fast texture synthesis using tree-structured vector quantization. In Proceedings of the 27th annual conference on Computer graphics and interactive techniques (pp. 479-488).
