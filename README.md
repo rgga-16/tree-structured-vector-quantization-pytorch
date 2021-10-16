@@ -41,5 +41,5 @@ For details on the arguments, run `python tvsq.py -h` or `python tvsq.py --h`.
 [tvsq]: https://graphics.stanford.edu/papers/texture-synthesis-sig00/texture.pdf
 [mrts]: https://github.com/anopara/multi-resolution-texture-synthesis#multi-resolution-texture-synthesis
 [user1]: https://github.com/anopara
-[ts]: https://github.com/1iyiwei/texture. 
+[ts]: https://github.com/1iyiwei/texture 
 [user2]: https://github.com/1iyiwei
