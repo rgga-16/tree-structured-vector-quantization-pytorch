@@ -17,10 +17,10 @@ python tvsq.py --in_path INPUT_TEXTURE_PATH --out_path SAVE_OUTPUT_TEXTURE_PATH 
 
 Use the following command if you would like to use different neighborhood sizes per level:
 ````
-python tvsq.py --in_path INPUT_TEXTURE_PATH --out_path SAVE_OUTPUT_TEXTURE_PATH [--n_levels NUM_LEVELS] --n_sizes [NEIGHBORHOOD_SIZE]  [--parent_sizes [PARENT_SIZE]] [--in_size INPUT_SIZE] [--out_size OUTPUT_SIZE]
+python tvsq.py --in_path INPUT_TEXTURE_PATH --out_path SAVE_OUTPUT_TEXTURE_PATH [--n_levels NUM_LEVELS] --n_sizes [NEIGHBORHOOD_SIZES]  [--parent_sizes [PARENT_SIZES]] [--in_size INPUT_SIZE] [--out_size OUTPUT_SIZE]
 ````
 
-* Note that either n_size or n_sizes must be specified.
+Either n_size or n_sizes must be specified. Also, length of n_sizes and parent_sizes must be equal to n_levels.
 
 For details on the arguments, run `python tvsq.py -h` or `python tvsq.py --h`. 
 
