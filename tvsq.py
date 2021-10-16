@@ -3,7 +3,7 @@ import torch
 from torchvision.transforms import GaussianBlur
 import torch.nn.functional as F
 
-import utils, seeder
+import utils
 
 import numpy as np, math, argparse
 from tqdm import tqdm
@@ -147,7 +147,6 @@ def tvsq(in_path,out_path,n_size,n_levels,in_size=None,out_size=None,parent_size
     # Build Gaussian pyramids for both images
     G_a = build_gaussian_pyramid(I_a,n_levels=n_levels)
     G_s = build_gaussian_pyramid(I_s,n_levels=n_levels)
-
     
     # TVSQ Loop
     for L in range(n_levels):
