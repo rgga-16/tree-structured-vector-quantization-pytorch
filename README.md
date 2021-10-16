@@ -31,5 +31,9 @@ For details on the arguments, run `python tvsq.py -h` or `python tvsq.py --h`.
 
 
 ## Acknowledgements
-Some parts of the code were based on the implementation, [multi-resolution-texture-synthesis][mrts], by anopara.
+- Some parts of the code were based on the implementation, [multi-resolution-texture-synthesis][mrts], by [anopara][user1].
 [mrts]: https://github.com/anopara/multi-resolution-texture-synthesis#multi-resolution-texture-synthesis
+[user1]: https://github.com/anopara
+- Input texture image borrowed from [Texture Synthesis][ts] by [1iyiwei][user2]. 
+[ts]: https://github.com/1iyiwei/texture. 
+[user2]: https://github.com/1iyiwei
