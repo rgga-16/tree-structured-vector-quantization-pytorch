@@ -27,7 +27,7 @@ Either `n_size` or `n_sizes` must be specified. Also, make sure `len(n_sizes)` a
 python tvsq.py --in_path texture1.jpg --out_path texture1_s.jpg --n_levels 4 --n_size 5 --parent_size 5  --in_size 64 --out_size 128
 ````
 ````
-python tvsq.py --in_path texture1.jpg --out_path texture1_s.jpg --n_levels 4 --n_sizes 3 5 7 9 --parent_size 3 5 7 9  --in_size 64 --out_size 128
+python tvsq.py --in_path texture1.jpg --out_path texture1_s.jpg --n_levels 4 --n_sizes 3 5 7 9 --parent_sizes 3 5 7 9  --in_size 64 --out_size 128
 ````
 
 For details on the arguments, run `python tvsq.py -h` or `python tvsq.py --h`. 
